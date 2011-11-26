@@ -2,10 +2,11 @@
   (let* ((the-project (jcall "getProject" self))
          (src-iterator (jcall (jmethod "org.apache.tools.ant.types.Path" "iterator")
                               (jcall "getReference" the-project "abcl-servlet.lisp")))
+	 (abcl-servlet (truename "~/work/abcl-servlet/"))
          (source 
-          #p"~/work/abcl-servlet/src/lisp/**/*.lisp")
+	  (merge-pathnames "src/lisp/**/*.lisp" abcl-servlet))
          (destination 
-          #p"~/work/abcl-servlet/build/web/WEB-INF/classes/**/*.abcl"))
+          (merge-pathnames "build/web/WEB-INF/classes/**/*.abcl" abcl-servlet)))
     (when (and (jcall "hasNext" src-iterator))
       (loop
          :for src-path = (pathname (jcall "toString" (jcall "next" src-iterator)))
