@@ -10,12 +10,28 @@
  */
 package org.armedbear.servletbridge;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.armedbear.lisp.*;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.logging.Logger;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.UnavailableException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.armedbear.lisp.Function;
+import org.armedbear.lisp.Interpreter;
+import org.armedbear.lisp.JavaObject;
+import org.armedbear.lisp.Lisp;
+import org.armedbear.lisp.LispObject;
+import org.armedbear.lisp.LispThread;
+import org.armedbear.lisp.Load;
+import org.armedbear.lisp.Packages;
+import org.armedbear.lisp.SpecialBindingsMark;
+import org.armedbear.lisp.Symbol;
 
 public class ServletBridge extends HttpServlet {
+  static Logger log = Logger.getLogger(ServletBridge.class.getCanonicalName());
 
     private boolean disallowSwankDebugger = false;
     private Symbol serviceSymbol;
@@ -101,9 +117,13 @@ public class ServletBridge extends HttpServlet {
                     loaderPath = config.getServletContext().getRealPath(loaderPath);
                 }
 
-                try {
-                    if (Packages.findPackage("SERVLET-API") == null)
-                        Load.load(ServletBridge.class.getResource("servlet-api.abcl").toString());
+                try { 
+                      final String servletBridgeURI = ServletBridge.class.getResource("servlet-api").toString();
+                      try {
+                        Load.load(servletBridgeURI);
+                      } catch (Throwable t) {
+                        log.severe(MessageFormat.format("Failed to load SERVLET-API from {0}", servletBridgeURI));
+                      }
                     Load.load(loaderPath);
                 } catch (Interpreter.UnhandledCondition e) {
                     throw new UnavailableException("Initialization error from lisp code:" + lispConditionToString(e));
