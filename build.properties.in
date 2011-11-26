@@ -1,0 +1,4 @@
+abcl.dir=${user.home}/work/abcl
+abcl.jar=${abcl.dir}/dist/abcl.jar
+
+javax.servlet.jar=/home/weblogic/dist/servlet25-api.jar

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="abcl-servlet" default="default" basedir=".">
+
+    <!-- A chance to override everything…-->
+    <property file="build.properties"/>
+
+    <import file="nbproject/build-impl.xml"/>
+
+    <path id="abcl-servlet.lisp">
+        <fileset dir="${basedir}/src/">
+            <include name="**/*.lisp" />
+        </fileset>
+    </path>
+
+    <path id="abcl.runtime">
+      <fileset dir="${abcl.dir}/dist">
+        <include name="abcl.jar"/>
+        <include name="abcl-contrib.jar"/>
+      </fileset>
+    </path>
+
+    <target name="-post-compile" depends="resources.copy">
+        <script language="ABCL" classpathref="abcl.runtime" src="${basedir}/build.lisp"/>
+        <mkdir dir="${basedir}/dist/"/>
+    </target>
+    
+    <property name="build.slime.dir" value="web/WEB-INF/classes/org/abcl/slime"/>
+    <property name="build.web.lib.dir" value="build/web/WEB-INF/lib/"/>
+    <property name="build" value="build/"/>
+    
+    <target name="resources.copy">
+      <mkdir dir="build/web/WEB-INF/lisp"/>
+      <copy todir="build/web/WEB-INF/lisp" verbose="true">
+        <fileset dir="${basedir}/src/lisp">
+          <include name="**.lisp"/>
+        </fileset>
+      </copy>
+
+      <mkdir dir="${build.slime.dir}"/>
+      <copy todir="${build.slime.dir}">
+        <fileset dir="${slime.dir}">
+          <include name="**.lisp"/>
+          <include name="**.asd"/>
+          <include name="**.el"/>
+        </fileset>
+      </copy>
+      
+      <mkdir dir="${build.web.lib.dir}"/>
+      <copy todir="${build.web.lib.dir}">
+        <fileset dir="${abcl.dir}/dist">
+          <include name="abcl-contrib.jar"/>
+        </fileset>
+      </copy>
+    </target>
+
+</project>
