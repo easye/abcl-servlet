@@ -1,17 +1,32 @@
+(defun ensure-relative (source abcl-servlet)
+  (let ((d (pathname-directory source)))
+    (if (eq (first d) :absolute)
+        ;;; /**/src/**/*.lisp -
+        (make-pathname 
+          :directory (cons :relative
+                           (subseq d (position "src" d :test #'equal)))
+          :defaults source)
+        d)))
+   
+(defparameter *self* nil)
+
 (defun compile.lisp ()
-  (let* ((the-project (jcall "getProject" self))
+  (let* ((the-project (jcall "getProject" *self*))
          (src-iterator (jcall (jmethod "org.apache.tools.ant.types.Path" "iterator")
                               (jcall "getReference" the-project "abcl-servlet.lisp")))
 	 (abcl-servlet (truename "~/work/abcl-servlet/"))
          (source 
-	  (merge-pathnames "src/lisp/**/*.lisp" abcl-servlet))
+          "src/lisp/**/*.lisp")
          (destination 
-          (merge-pathnames "build/web/WEB-INF/classes/**/*.abcl" abcl-servlet)))
+          "build/web/WEB-INF/classes/**/*.abcl"))
     (when (and (jcall "hasNext" src-iterator))
       (loop
-         :for src-path = (pathname (jcall "toString" (jcall "next" src-iterator)))
-
-         :for dst-path = (translate-pathname src-path source destination)
+         :for src-path 
+           = (jcall "toString" (jcall "next" src-iterator))
+         :for dst-path 
+            = (translate-pathname 
+               (ensure-relative src-path abcl-servlet)
+               source destination)
          :do 
             (format t "~&Compiling ~A to ~A.~%" src-path dst-path)
          :do 
@@ -20,6 +35,9 @@
             (and (jcall "hasNext" src-iterator))))))
 
 (eval-when (:execute)
+  ;;; We're being executed in the context of an Ant build
+  (setf *self* self)
+  (trace ensure-relative translate-pathname)
 ;;  #+nil
   (require 'asdf)
   (push #p"~/work/slime/" asdf:*central-registry*)
