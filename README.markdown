@@ -23,11 +23,13 @@ implementation
 To start the Swank server listening for incoming connections, the only
 defined REST call is currently
   
-    GET http://tomcat.local:8084/abcl/abcl-swank
+    GET http://tomcat.local:8084/abcl/swank
     
-which should respond with an HTML message containing markup with how
-to rendevous with the SLIME port, usually via invoking the function
-SLIME-CONNECT in Emacs lisp (interactively by the "M-x" prefix).
+whre the "tomcat.local:8084" resolves to the authority and path of the
+deployed 'abcl-servlet.war' artifact which should respond with an HTML
+message containing markup with how to rendevous with the SLIME port,
+usually via invoking the function SLIME-CONNECT in Emacs lisp
+(interactively by the "M-x" prefix).
 
 
 ## BUGS
@@ -48,7 +50,27 @@ fairly restricted security capacities, I was surprised to find that I
 could get ABCL threads to read/write FASLs off of the local
 filesystem.  THen, being able to connect to the JVM hosting via SLIME
 
+## LICENSE
 
+As a mostly derived work, the code is licensed under the same terms of
+the LGPL.  These are the
+[terms from the abcl-web website](http://abcl-web.sourceforge.net/#License)
+
+    abcl-web is distributed under LGPL license, with clarifications
+    from LLGPL applicable. (while components, such us ABCL itself, may
+    come with different licenses). To clarify this: you can use this
+    however you want with your web applications, but if you modify
+    ABCL-web, we'd like to see your patches and apply them if they are
+    useful in general.
     
+## COLON    
+
+Remember to make Love, not War!
+ 
+Mark Evenson
+
+November 2011
+
+ 
 
 
