@@ -32,7 +32,8 @@
       <mkdir dir="build/web/WEB-INF/lisp"/>
       <copy todir="build/web/WEB-INF/lisp" verbose="true">
         <fileset dir="${basedir}/src/lisp">
-          <include name="**.lisp"/>
+          <include name="**/*.lisp"/>
+          <include name="**/*.asd"/>
         </fileset>
       </copy>
 
