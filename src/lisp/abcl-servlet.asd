@@ -6,12 +6,13 @@
 
 ;;; XXX remove the need to bootstrap the javax.servlet definitions
 #+nil
-(add-to-classpath (abcl-asdf:resolve-dependencies "javax.servlet" "servlet-api" "3.0"))
+(add-to-classpath 
+ (abcl-asdf:resolve-dependencies "org.glassfish" "javax.servlet" "3.0"))
 
 (defsystem 
     :abcl-servlet :version "0.2" :components 
     ((:module javax.servlet.jar :components
-              ((:mvn "javax.servlet/servlet-api" :version "3.0")))
+              ((:mvn "org.glassfish/javax.servlet" :version "3.0")))
      (:module api :depends-on (:javax.servlet.jar)
               :pathname "org/armedbear/servletbridge/" :components
               ((:file "servlet-api")))

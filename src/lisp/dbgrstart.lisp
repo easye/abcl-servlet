@@ -3,6 +3,7 @@
 (defvar *swank-loaded* nil)
 (defvar *swank-server-started* nil)
 
+;;; XXX HACK
 (require 'asdf)
 (push #p"~/work/slime/" asdf:*central-registry*)
 (require 'swank)
@@ -22,9 +23,7 @@
     (swank:create-server :port 4005 :dont-close t)
     (setq *swank-server-started* t)))
 
-(defpackage "DBGRSRV"
-    (:use :CL))
-
+(defpackage "DBGRSRV" (:use :CL))
 (in-package :DBGRSRV)
 
 (defun service (request response)
@@ -39,4 +38,4 @@ debug the process of application loading.</p>")))
 (cl:in-package :cl-user)
 (eval-when (:execute)
   (format t "~&Loading dbgr...")
-  (load-swank)
+  (load-swank))
