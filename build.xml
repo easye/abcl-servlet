@@ -24,7 +24,7 @@
         <mkdir dir="${basedir}/dist/"/>
     </target>
     
-    <property name="build.slime.dir" value="${basedir}/build/web/WEB-INF/classes/org/abcl/slime"/>
+    <property name="build.slime.dir" value="${basedir}/build/web/WEB-INF/lisp/site/slime"/>
     <property name="build.web.lib.dir" value="build/web/WEB-INF/lib/"/>
     <property name="build" value="build/"/>
     

@@ -12,4 +12,5 @@
    (with-simple-restart (abort "Abort")
      (servlet-api:set-content-type response "text/html")
      (let ((s (servlet-api:get-text-output-stream response)))
-   (format s "<html><body><h1>Hello</h1>world</body></html>")))))
+       (format s "<html><title>ABCL</title><body>*load-truename* ~A</body></html>"
+               *load-truename*)))))
