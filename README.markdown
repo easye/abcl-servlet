@@ -11,14 +11,15 @@ inside a Java Servlet container.
 
 ##  INSTALL
 
-Built via the Ant instructions in 'file:build.xml':
+Built via the [Ant instructions contained in 'file:build.xml'](./build.xml)
 
     cmd$ ant -find build.xml dist
 
 ##  SLIME
 
-One specifies the SLIME installation to be pacakged by the
-implementation 
+One specifies the SLIME installation to be packaged by the build
+process to create the delpoyment artifact
+[abcl-servlet.war](dist/abcl-servlet.war).
 
 To start the Swank server listening for incoming connections, the only
 defined REST call is currently
@@ -42,18 +43,22 @@ can share from your experience.
 ## CAVEAT
 
 I am a little shocked that this actually works under Apache Tomcat, so
-maybe it is not useful anywhere else.
+maybe it is not useful anywhere else.  I plan to at least test under
+Glassfish, Weblogic, and JBoss to explore exactly where it might be
+useful.
 
-As a seasoned Java developer, long conditioned to believe that threads
-in a servlet container were never to be initiated, and would have
-fairly restricted security capacities, I was surprised to find that I
-could get ABCL threads to read/write FASLs off of the local
-filesystem.  THen, being able to connect to the JVM hosting via SLIME
+As a seasoned Java developer who was long conditioned to believe that
+threads in a servlet container were never to be initiated, and would
+have fairly restricted security capacities, I was surprised to find
+that I could get ABCL threads to read/write FASLs off of the local
+filesystem.  Finding myself able to connect to the JVM hosting via
+SLIME just gobsmacked me.  "Everyone should be able to do this!" 
 
 ## LICENSE
 
-As a mostly derived work, the code is licensed under the same terms of
-the LGPL.  These are the
+As a mostly derived work of the work of Alex Mihai (aka "killerstorm")
+and Erik Huelsmann, the code is licensed under the same terms of the
+LGPL.  These are the
 [terms from the abcl-web website](http://abcl-web.sourceforge.net/#License)
 
     abcl-web is distributed under LGPL license, with clarifications
@@ -63,7 +68,7 @@ the LGPL.  These are the
     ABCL-web, we'd like to see your patches and apply them if they are
     useful in general.
     
-## COLON    
+## COLOPHON    
 
 Remember to make Love, not War!
  
