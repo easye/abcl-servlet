@@ -1,6 +1,10 @@
 abcl.dir=${user.home}/work/abcl
 abcl.jar=${abcl.dir}/dist/abcl.jar
 
-javax.servlet.jar=/home/weblogic/dist/servlet25-api.jar
+#javax.servlet.jar=/home/weblogic/dist/servlet25-api.jar
+javax.servlet.jar=/opt/local/share/java/servlet25-api.jar
 
 slime.dir=${user.home}/work/slime
+
+# Need to set these if not using Netbeans to build
+j2ee.server.home=${user.home}/apache-tomcat-7.0.11
