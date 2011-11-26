@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         xmlns="http://java.sun.com/xml/ns/javaee">
+
+    <servlet>
+        <servlet-name>Lisp</servlet-name>
+        <servlet-class>org.abcl.servlet.Lisp</servlet-class>
+    </servlet>
+
+    <servlet>
+      <servlet-name>abcl</servlet-name>
+      <servlet-class>org.armedbear.servletbridge.ServletBridge</servlet-class>
+
+      <init-param>
+        <param-name>lisp.loader</param-name>
+        <param-value>WEB-INF/lisp/loader.lisp</param-value>
+      </init-param>
+      <init-param>
+        <param-name>lisp.package</param-name>
+        <param-value>SRV</param-value>
+      </init-param>
+    </servlet>
+
+    <servlet>
+      <servlet-name>abcl-swank</servlet-name>
+      <servlet-class>org.armedbear.servletbridge.ServletBridge</servlet-class>
+
+      <init-param>
+        <param-name>lisp.loader</param-name>
+        <param-value>WEB-INF/lisp/dbgrstart.lisp</param-value>
+      </init-param>
+      <init-param>
+        <param-name>lisp.package</param-name>
+        <param-value>DBGRSRV</param-value>
+      </init-param>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>Lisp</servlet-name>
+        <url-pattern>/cl</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+
+    <servlet-mapping>
+        <servlet-name>abcl-swank</servlet-name>
+        <url-pattern>/swank</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>abcl</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+</web-app>
