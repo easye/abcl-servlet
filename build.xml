@@ -53,5 +53,9 @@
         </fileset>
       </copy>
     </target>
+    
+    <target name="diagnostic" depends="init">
+      <echo>j2ee.server.home: ${j2ee.server.home}</echo>
+    </target>
 
 </project>
