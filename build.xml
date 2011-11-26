@@ -24,7 +24,7 @@
         <mkdir dir="${basedir}/dist/"/>
     </target>
     
-    <property name="build.slime.dir" value="web/WEB-INF/classes/org/abcl/slime"/>
+    <property name="build.slime.dir" value="${basedir}/build/web/WEB-INF/classes/org/abcl/slime"/>
     <property name="build.web.lib.dir" value="build/web/WEB-INF/lib/"/>
     <property name="build" value="build/"/>
     
@@ -39,9 +39,9 @@
       <mkdir dir="${build.slime.dir}"/>
       <copy todir="${build.slime.dir}">
         <fileset dir="${slime.dir}">
-          <include name="**.lisp"/>
-          <include name="**.asd"/>
-          <include name="**.el"/>
+          <include name="**/*.lisp"/>
+          <include name="**/**.asd"/>
+          <include name="**/*.el"/>
         </fileset>
       </copy>
       
