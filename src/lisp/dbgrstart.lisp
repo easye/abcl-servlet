@@ -9,11 +9,15 @@
 (print "loading swank..")
 (terpri)
 
+#+nil
 (load (merge-pathnames #p"packages/slime/swank-loader.lisp" *load-pathname*))
+(require 'asdf)
+(push #p"~/work/slime/" asdf:*central-registry*)
+(require 'swank)
 
 (print "...")(terpri)
 
-(swank-loader:init
+(swank-loader::init
  :delete nil         ; delete any existing SWANK packages
  :reload nil         ; reload SWANK, even if the SWANK package already exists
  :load-contribs nil) ; load all contribs

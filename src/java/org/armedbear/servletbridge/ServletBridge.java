@@ -11,6 +11,7 @@
 package org.armedbear.servletbridge;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
@@ -118,15 +119,38 @@ public class ServletBridge extends HttpServlet {
                 }
 
                 try { 
-                      final String servletBridgeURI = ServletBridge.class.getResource("servlet-api").toString();
-                      try {
-                        Load.load(servletBridgeURI);
-                      } catch (Throwable t) {
-                        log.severe(MessageFormat.format("Failed to load SERVLET-API from {0}", servletBridgeURI));
-                      }
+                  String servletBridgeURI = "servlet-api";
+                  try {
+                    URL url = ServletBridge.class.getResource("servlet-api.abcl");
+                    servletBridgeURI = url.toString();
+                    log.info(MessageFormat.format("Loading from {0}...", servletBridgeURI));
+                    Load.load(servletBridgeURI);
+                    log.info(MessageFormat.format("Loaded {0}.", servletBridgeURI));
+                  } catch (Interpreter.UnhandledCondition t) {
+                    log.severe(MessageFormat.format("Failed to load SERVLET-API from {0}", servletBridgeURI));
+                    throw t;
+                  }
+
+                  try {
+                    log.info(MessageFormat.format("Loading from {0}...", loaderPath));
                     Load.load(loaderPath);
+                    log.info(MessageFormat.format("Loaded {0}.", loaderPath));
+                  } catch (Interpreter.UnhandledCondition t1) {
+                     String relativePath = "../../../../../" + config.getInitParameter("lisp.loader");
+                     URL url = null;
+                     try {
+                       url = ServletBridge.class.getResource(relativePath);
+                       String loaderURI = url.toString();
+                       Load.load(loaderURI);
+                     } catch (Interpreter.UnhandledCondition t2) {
+                       log.severe(MessageFormat.format("Failed to load value of 'lisp.loader' at {0}",
+                                                       url.toString()));
+                       throw t2;
+                     }
+                  }
                 } catch (Interpreter.UnhandledCondition e) {
-                    throw new UnavailableException("Initialization error from lisp code:" + lispConditionToString(e));
+                    throw new UnavailableException("Initialization error from lisp code:" 
+                                                   + lispConditionToString(e));
                 } finally {
                     thread.resetSpecialBindings(mark);
                 }

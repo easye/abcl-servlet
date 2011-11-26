@@ -1,9 +1,11 @@
 (cl:in-package :cl-user)
 
-(defpackage "SRV"
-    (:use :CL))
-
+(defpackage "SRV" (:use :CL))
 (in-package :SRV)
+
+(require 'asdf)
+(push #P"~/work/slime/" asdf:*central-registry*)
+(asdf:load-system 'swank)
 
 (defun service (request response)
  (let ((*debugger-hook* #'swank:swank-debugger-hook))
