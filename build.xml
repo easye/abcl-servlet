@@ -19,13 +19,18 @@
       </fileset>
     </path>
 
-    <target name="-post-compile" depends="resources.copy">
-        <script language="ABCL" classpathref="abcl.runtime" src="${basedir}/build.lisp"/>
+    <target name="-post-compile" depends="run-build.lisp"/>
+
+    <target name="run-build.lisp" depends="resources.copy">
+        <script language="ABCL" classpathref="abcl.runtime" 
+                src="${basedir}/build.lisp"/>
         <mkdir dir="${basedir}/dist/"/>
     </target>
     
-    <property name="build.slime.dir" value="${basedir}/build/web/WEB-INF/lisp/site/slime"/>
-    <property name="build.web.lib.dir" value="build/web/WEB-INF/lib/"/>
+    <property name="build.slime.dir" 
+              value="${basedir}/build/web/WEB-INF/lisp/site/slime"/>
+    <property name="build.web.lib.dir" 
+              value="build/web/WEB-INF/lib/"/>
     <property name="build" value="build/"/>
     
     <target name="resources.copy">
