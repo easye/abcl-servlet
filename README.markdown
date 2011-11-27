@@ -5,13 +5,16 @@ inside a Java Servlet container.
 
 ## OBTAINING
 
+    http://bitbucket.org/easye/abcl-servlet
+    http://slack.net/~evenson/abcl/abcl-servlet
     Mark <evenson.not.org@gmail.com>
     Created: 22-NOV-2011
-    Revised: 26-NOV-2011
+    Revised: 27-NOV-2011
 
 ##  INSTALL
 
-Built via the [Ant instructions contained in 'file:build.xml'](./build.xml)
+Built via the
+[Ant instructions contained in 'file:build.xml'](./build.xml)
 
     cmd$ ant -find build.xml dist
 
@@ -26,10 +29,10 @@ defined REST call is currently
   
     GET http://tomcat.local:8084/abcl/swank
     
-whre the "tomcat.local:8084" resolves to the authority and path of the
-deployed 'abcl-servlet.war' artifact which should respond with an HTML
-message containing markup with how to rendevous with the SLIME port,
-usually via invoking the function SLIME-CONNECT in Emacs lisp
+where the "tomcat.local:8084" resolves to the authority and path of
+the deployed 'abcl-servlet.war' artifact which should respond with an
+HTML message containing markup with how to rendevous with the SLIME
+port, usually via invoking the function SLIME-CONNECT in Emacs lisp
 (interactively by the "M-x" prefix).
 
 
@@ -43,9 +46,10 @@ can share from your experience.
 ## CAVEAT
 
 I am a little shocked that this actually works under Apache Tomcat, so
-maybe it is not useful anywhere else.  I plan to at least test under
-Glassfish, Weblogic, and JBoss to explore exactly where it might be
-useful.
+maybe it is not useful anywhere else.  OPening the source to a common
+trunk is the first step to distrubte this effort. I plan to at least
+test under Glassfish, Weblogic, and JBoss to explore exactly where it
+might be useful.
 
 As a seasoned Java developer who was long conditioned to believe that
 threads in a servlet container were never to be initiated, and would
@@ -57,8 +61,8 @@ SLIME just gobsmacked me.  "Everyone should be able to do this!"
 ## LICENSE
 
 As a mostly derived work of the work of Alex Mihai (aka "killerstorm")
-and Erik Huelsmann, the code is licensed under the same terms of the
-LGPL.  These are the
+and Erik Huelsmann, the code is licensed under the same terms of
+abcl-web, namely those of LGPL.  These are the
 [terms from the abcl-web website](http://abcl-web.sourceforge.net/#License)
 
     abcl-web is distributed under LGPL license, with clarifications
