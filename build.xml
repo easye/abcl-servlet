@@ -62,5 +62,16 @@
     <target name="diagnostic" depends="init">
       <echo>j2ee.server.home: ${j2ee.server.home}</echo>
     </target>
+    
+    <target name="-post-clean"
+            depends="clean.src.fasls"/>
+
+    <target name="clean.src.fasls">
+      <delete>
+        <fileset dir="src/lisp">
+          <include name="**/*.abcl"/>
+        </fileset>
+      </delete>
+    </target>
 
 </project>
