@@ -6,12 +6,22 @@
 
     <import file="nbproject/build-impl.xml"/>
 
+    <property name="servlet-api.lisp.pattern"
+              value="**/servlet-api.lisp"/>
+
     <path id="abcl-servlet.lisp">
-        <fileset dir="${basedir}/src/">
-            <include name="**/*.lisp" />
-        </fileset>
+      <fileset dir="${basedir}/src/">
+        <include name="**/*.lisp" />
+        <exclude name="${servlet-api.lisp.pattern}"/>
+      </fileset>
     </path>
 
+    <path id="abcl-servlet.servlet-api.lisp">
+      <fileset dir="${basedir}/src/">
+        <include name="${servlet-api.lisp.pattern}"/>
+      </fileset>
+    </path>
+        
     <path id="abcl.runtime">
       <fileset dir="${abcl.dir}/dist">
         <include name="abcl.jar"/>

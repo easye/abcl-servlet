@@ -1,6 +1,7 @@
 ;;; XXX would be nice...  
-
 #| 
+(require 'abcl-contrib)
+(require 'jss)
 
 But currently produces the error under Netbeans Ant
 
@@ -9,10 +10,8 @@ But currently produces the error under Netbeans Ant
 
 which means that we need to MKLIST the ABCL-CONTRIB require mechanism code.
 
-#|
+|#
 
-(require 'abcl-contrib)
-(require 'jss)
 
 (defun ensure-relative (source abcl-servlet)
   (let ((d (pathname-directory source)))
@@ -26,12 +25,12 @@ which means that we need to MKLIST the ABCL-CONTRIB require mechanism code.
    
 (defparameter *self* nil)
 
-(defun compile.lisp ()
+(defun compile.lisp (build-xml-ref)
   (let* ((the-project 
           (jcall "getProject" *self*))
          (src-iterator 
           (jcall (jmethod "org.apache.tools.ant.types.Path" "iterator")
-                 (jcall "getReference" the-project "abcl-servlet.lisp")))
+                 (jcall "getReference" the-project build-xml-ref)))
 	 (abcl-servlet 
           (truename "~/work/abcl-servlet/"))
          (source 
@@ -44,8 +43,8 @@ which means that we need to MKLIST the ABCL-CONTRIB require mechanism code.
            = (jcall "toString" (jcall "next" src-iterator))
          :for dst-path 
             = (merge-pathnames (translate-pathname 
-                               (ensure-relative src-path abcl-servlet)
-                               source destination)
+                                (ensure-relative src-path abcl-servlet)
+                                source destination)
                                abcl-servlet)
          :do 
             (format t "~&Compiling ~A to ~A.~%" src-path dst-path)
@@ -65,5 +64,6 @@ which means that we need to MKLIST the ABCL-CONTRIB require mechanism code.
   (require 'asdf)
   (push #p"~/work/slime/" asdf:*central-registry*)
   (asdf:load-system 'swank)
-  (load "~/work/abcl-servlet/src/lisp/org/armedbear/servletbridge/servlet-api")
-  (compile.lisp))
+  (compile.lisp "abcl-servlet.servlet-api.lisp")
+  (compile.lisp "abcl-servlet.lisp"))
+
