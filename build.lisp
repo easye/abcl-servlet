@@ -35,10 +35,13 @@
             (and (jcall "hasNext" src-iterator))))))
 
 (eval-when (:execute)
-  ;;; We're being executed in the context of an Ant build
+  ;;; We're being executed in the context of an Ant build, so glom on
+  ;;; to that context in a global.
   (setf *self* self)
+
+  ;;; DEBUG
   (trace ensure-relative translate-pathname)
-;;  #+nil
+
   (require 'asdf)
   (push #p"~/work/slime/" asdf:*central-registry*)
   (asdf:load-system 'swank)
