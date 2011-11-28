@@ -14,7 +14,7 @@
     ((:module javax.servlet.jar :components
               ((:mvn "org.glassfish/javax.servlet" :version "3.0")))
      (:module api :depends-on (:javax.servlet.jar)
-              :pathname "org/armedbear/servletbridge/" :components
+              :pathname "" :components
               ((:file "servlet-api")))
      (:module src :pathname "" :depends-on (:api) :components 
               ((:file "loader") (:file "dbgrstart")))))

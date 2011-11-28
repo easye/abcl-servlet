@@ -1,20 +1,20 @@
-/*
+/**
  * ServletBridge.java - basic Java servlet to ABCL Common Lisp servlet bridge
  *
  * Copyright (C) Alex Mizrahi, 2005
  * Copyright (C) Erik Huelsmann, 2010
- *
- *
- *
- *
+ * Copyright (C) Mark Evenson, 2011
  */
+
 package org.armedbear.servletbridge;
 
 import java.io.IOException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
+import java.net.MalformedURLException;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServlet;
@@ -121,16 +121,32 @@ public class ServletBridge extends HttpServlet {
                 try { 
                   String servletBridgeURI = "servlet-api";
                   try {
-                    URL url = ServletBridge.class.getResource("servlet-api.abcl");
-                    servletBridgeURI = url.toString();
-                    log.info(MessageFormat.format("Loading from {0}...", servletBridgeURI));
-                    Load.load(servletBridgeURI);
-                    log.info(MessageFormat.format("Loaded {0}.", servletBridgeURI));
+                    final String servletApiRelative = "/../../../../lisp/" + servletBridgeURI;
+                    final Class servletBridgeClass = ServletBridge.class;
+                    URL baseURL = servletBridgeClass.getResource(servletApiRelative);
+                    if (baseURL == null) {
+                      final String m = MessageFormat.format("Failed to form base URL from '{0}'.",
+                                                            servletApiRelative);
+                      throw new MalformedURLException(m);
+                    }
+                    servletBridgeURI = baseURL.toString();
+                    loadServletApi(servletBridgeURI);
                   } catch (Interpreter.UnhandledCondition t) {
-                    log.severe(MessageFormat.format("Failed to load SERVLET-API from {0}", servletBridgeURI));
-                    throw t;
-                  }
+                    log.severe(MessageFormat.format("Failed to load SERVLET-API from {0}", 
+                                                    servletBridgeURI));
+                    servletBridgeURI = 
+                        config.getServletContext().getRealPath("WEB-INF/lisp/servlet-api");
+                    loadServletApi(servletBridgeURI);
+                  } catch (MalformedURLException e) {
+                    log.severe(MessageFormat.format("Failed to construct base URI from {0}", e.getMessage()));
+                    log.severe(MessageFormat.format("Failed to load SERVLET-API from {0}", 
+                                                    servletBridgeURI));
+                    servletBridgeURI = 
+                        config.getServletContext().getRealPath("WEB-INF/lisp/servlet-api");
+                    loadServletApi(servletBridgeURI);
 
+                  }
+                                 
                   try {
                     log.info(MessageFormat.format("Loading from {0}...", loaderPath));
                     Load.load(loaderPath);
@@ -270,4 +286,18 @@ public class ServletBridge extends HttpServlet {
 
         return retval;
     }
+
+        private void loadServletApi(String uri)
+          throws Interpreter.UnhandledCondition
+        {
+          try {
+            log.info(MessageFormat.format("Loading servlet-api from {0}...", uri));
+            Load.load(uri);
+            log.info(MessageFormat.format("Loaded {0}.", uri));
+          } catch (Interpreter.UnhandledCondition e) {
+            log.severe(MessageFormat.format("Failed to load servlet API from '{0}': {1}",
+                                           uri, e.toString()));
+            throw e;
+          } 
+        }
 }

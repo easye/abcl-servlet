@@ -36,6 +36,7 @@
    #:get-scheme
    #:get-server-name
    #:get-server-port
+   #:get-request-url
    #:include-request
    #:is-secure
    #:get-locale
@@ -169,6 +170,8 @@
 (def-rq-fn get-server-name () "getServerName")
 (def-rq-fn get-server-port () "getServerPort")
 (def-rq-fn is-secure () "isSecure")
+
+(def-rq-fn get-request-url () "getRequestURL")
 ;;not implemented: remove-attribute
 ;;not implemented: set-attribute
 
