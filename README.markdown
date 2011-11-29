@@ -9,12 +9,12 @@ inside a Java Servlet container.
     http://slack.net/~evenson/abcl/abcl-servlet
     Mark <evenson.not.org@gmail.com>
     Created: 22-NOV-2011
-    Revised: 27-NOV-2011
+    Revised: 29-NOV-2011
 
 ##  INSTALL
 
 Built via the
-[Ant instructions contained in 'file:build.xml'](./build.xml)
+[Ant instructions contained in 'file:build.xml'](build.xml)
 
     cmd$ ant -find build.xml dist
 
@@ -27,7 +27,7 @@ process to create the delpoyment artifact
 To start the Swank server listening for incoming connections, the only
 defined REST call is currently
   
-    GET http://tomcat.local:8084/abcl/swank
+    GET http://tomcat.local:8084/abcl-servlet/swank
     
 where the "tomcat.local:8084" resolves to the authority and path of
 the deployed 'abcl-servlet.war' artifact which should respond with an
@@ -60,9 +60,9 @@ SLIME just gobsmacked me.  "Everyone should be able to do this!"
 
 ## LICENSE
 
-As a mostly derived work of the work of Alex Mihai (aka "killerstorm")
-and Erik Huelsmann, the code is licensed under the same terms of
-abcl-web, namely those of LGPL.  These are the
+As a mostly derived work of the work of Alex Mizrahi (aka
+"killerstorm") and Erik Hülsmann, the code is licensed under the same
+terms of abcl-web, namely those of LGPL.  These are the
 [terms from the abcl-web website](http://abcl-web.sourceforge.net/#License)
 
     abcl-web is distributed under LGPL license, with clarifications
