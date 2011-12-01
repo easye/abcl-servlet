@@ -9,20 +9,22 @@ inside a Java Servlet container.
     http://slack.net/~evenson/abcl/abcl-servlet
     Mark <evenson.not.org@gmail.com>
     Created: 22-NOV-2011
-    Revised: 29-NOV-2011
+    Revised: 01-DEC-2011
 
 ##  INSTALL
 
 Built via the
-[Ant instructions contained in 'file:build.xml'](build.xml)
+[Ant instructions contained in 'file:build.xml'](build.xml).  First
+copy `build.properties.in' to `build.properties', then edit to reflect
+local variances.  To build the `abcl-servlet.war' issue: 
 
     cmd$ ant -find build.xml dist
 
 ##  SLIME
 
-One specifies the SLIME installation to be packaged by the build
-process to create the delpoyment artifact
-[abcl-servlet.war](dist/abcl-servlet.war).
+One specifies the SLIME installation available locally to be packaged
+by the build process to create the delpoyment artifact
+[abcl-servlet.war](dist/abcl-servlet.war) via the `slime.dir' property
 
 To start the Swank server listening for incoming connections, the only
 defined REST call is currently
@@ -39,24 +41,26 @@ port, usually via invoking the function SLIME-CONNECT in Emacs lisp
 ## BUGS
 
 Due to the immature state of testing, this code will probably not work
-at first in your local servelet container.  But if you do manage to
-patch it, please get the patches back to the main repository so others
-can share from your experience.
+at first in your local java servlet container.  But if you do manage
+to patch it, please get the patches back to the main repository so
+others can share from your experience.
 
 ## CAVEAT
 
 I am a little shocked that this actually works under Apache Tomcat, so
-maybe it is not useful anywhere else.  OPening the source to a common
-trunk is the first step to distrubte this effort. I plan to at least
-test under Glassfish, Weblogic, and JBoss to explore exactly where it
-might be useful.
+maybe it is not useful anywhere else.  Opening the source to a common
+trunk that encourages forking is the first step to distribute the
+effort of testing the posibilites. I plan to at least test under
+Glassfish, Weblogic, and JBoss to explore exactly where it might be
+useful. 
 
 As a seasoned Java developer who was long conditioned to believe that
 threads in a servlet container were never to be initiated, and would
 have fairly restricted security capacities, I was surprised to find
 that I could get ABCL threads to read/write FASLs off of the local
 filesystem.  Finding myself able to connect to the JVM hosting via
-SLIME just gobsmacked me.  "Everyone should be able to do this!" 
+SLIME just gobsmacked me to exclaim "Everyone should be able to do
+this!"
 
 ## LICENSE
 
