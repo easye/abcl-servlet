@@ -62,7 +62,14 @@ which means that we need to MKLIST the ABCL-CONTRIB require mechanism code.
   (trace ensure-relative translate-pathname compile-file)
 
   (require 'asdf)
-  (push #p"~/work/slime/" asdf:*central-registry*)
+  (let ((slime-dir (jcall "getProperty" 
+                          (jcall "getProject" *self*)
+                          "slime.dir")))
+    (push 
+     (if slime-dir 
+         (pathname (concatenate 'string slime-dir "/"))
+         #p"~/work/slime/")
+     asdf:*central-registry*))
   (asdf:load-system 'swank)
   (compile.lisp "abcl-servlet.servlet-api.lisp")
   (compile.lisp "abcl-servlet.lisp"))
