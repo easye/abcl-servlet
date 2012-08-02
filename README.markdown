@@ -9,7 +9,7 @@ inside a Java Servlet container.
     http://slack.net/~evenson/abcl/abcl-servlet
     Mark <evenson.not.org@gmail.com>
     Created: 22-NOV-2011
-    Revised: 01-DEC-2011
+    Revised: 02-AUG-2012
 
 ##  INSTALL
 

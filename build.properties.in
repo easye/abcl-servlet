@@ -1,6 +1,8 @@
 abcl.dir=${user.home}/work/abcl
 abcl.jar=${abcl.dir}/dist/abcl.jar
 
+## INSTALL Java Servlet API 2.5
+### Macports dada:~/work/abcl-servlet$ sudo port install servlet25-api
 #javax.servlet.jar=/home/weblogic/dist/servlet25-api.jar
 javax.servlet.jar=/opt/local/share/java/servlet25-api.jar
 
