@@ -2,10 +2,12 @@ package org.abcl.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 public class Lisp extends HttpServlet {
   protected void processRequest(HttpServletRequest request, 
@@ -17,14 +19,15 @@ public class Lisp extends HttpServlet {
     getServletContext().setAttribute("org.abcl.servlet.request",
                                      request);
     try {
-      out.println("<html>");
-      out.println("<head>");
-      out.println("<title>Servlet Lisp</title>");  
-      out.println("</head>");
-      out.println("<body>");
-      out.println("<h1>Servlet Lisp at " + request.getContextPath () + "</h1>");
-      out.println("</body>");
-      out.println("</html>");
+        final String CRLF = "\n\r";
+	Object results[] = {
+	    request.getServletPath()};
+        String messageBody // XXX expensive, but much less verbose.
+	    = MessageFormat.format("<html>" + "<head>" +"<title>Servlet Lisp</title>" + "</head>" +  "<body>" 
+				   + "<h1>"
+				   + "Servlet Lisp at ServletPath: '{0}'\n\r"
+				   + "</h1>" + "</body>" + "</html>", results);
+    out.println(messageBody);
     } finally {      
       out.close();
     }
