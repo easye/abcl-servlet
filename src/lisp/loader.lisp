@@ -14,12 +14,14 @@
   (let ((*debugger-hook* #'swank:swank-debugger-hook))
     (with-simple-restart (abort "Abort")
       (servlet-api:set-content-type response "text/html")
-      (let ((s (servlet-api:get-text-output-stream response)))
+      (let ((s (servlet-api:get-text-output-stream response))
+            (context-path (servlet-api:get-context-path request)))
         (format s "<html>
 <title>ABCL</title>
 <body>
 <p>load-truename: ~A</p>
-<p><a href='/abcl-servlet/swank'>Start the Swank server</a></p>
+<p><a href='~A/swank'>Start the Swank server</a></p>
 </body>
 </html>"
-               *location*)))))
+               *location*
+               context-path)))))

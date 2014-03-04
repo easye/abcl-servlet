@@ -40,7 +40,8 @@
    #:include-request
    #:is-secure
    #:get-locale
-   #:get-locales))
+   #:get-locales
+   #:get-context-path))
    
    
 (cl:in-package :servlet-api)
@@ -191,6 +192,8 @@
 (defun get-locales (request)
   (mapcar #'%convert-locale
           (java::list-from-jenumeration (%get-locales request))))
+
+(def-rq-fn get-context-path () "getContextPath")
 
 ;; common functions
 

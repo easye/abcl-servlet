@@ -21,8 +21,9 @@ public class Lisp extends HttpServlet {
     try {
         final String CRLF = "\n\r";
 	Object results[] = {
-	    request.getServletPath()};
-        String messageBody // XXX expensive, but much less verbose.
+	    request.getServletPath(), getServletContext(), request
+    };
+    String messageBody 
 	    = MessageFormat.format("<html>" + "<head>" +"<title>Servlet Lisp</title>" + "</head>" +  "<body>" 
 				   + "<h1>"
 				   + "Servlet Lisp at ServletPath: '{0}'\n\r"

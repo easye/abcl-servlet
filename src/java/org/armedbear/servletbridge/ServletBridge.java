@@ -99,7 +99,7 @@ public class ServletBridge extends HttpServlet {
             String servicePackageName = config.getInitParameter("lisp.package");
             if (servicePackageName == null || servicePackageName.length() == 0) {
                 throw new UnavailableException("Initialization error: "
-                        + "no valid 'lisp.package' parameter specified");
+                        + "invalid 'lisp.package' parameter specified");
             }
 
             org.armedbear.lisp.Package servicePackage =
@@ -110,7 +110,7 @@ public class ServletBridge extends HttpServlet {
                 // however, this is a valid state if the servicePackage already exists
                 if (servicePackage == null) {
                     throw new UnavailableException("Initialization error: "
-                            + "no valid 'lisp.loader' parameter specified");
+                            + "invalid 'lisp.loader' parameter specified");
                 }
             } else {
                 if (loaderPath.charAt(0) != '/') // not an absolute path? Resolve relative to servlet context path
