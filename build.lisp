@@ -46,10 +46,10 @@ which means that we need to MKLIST the ABCL-CONTRIB require mechanism code.
                                 (ensure-relative src-path abcl-servlet)
                                 source destination)
                                abcl-servlet)
-         :do 
-            (format t "~&Compiling ~A to ~A.~%" src-path dst-path)
-         :do 
-            (compile-file src-path :output-file dst-path)
+         :when (> (file-write-date src-path) (file-write-date dst-path))
+           :do (progn 
+                 (format t "~&Compiling ~A to ~A.~%" src-path dst-path)
+                 (compile-file src-path :output-file dst-path))
          :while 
             (and (jcall "hasNext" src-iterator))))))
 
