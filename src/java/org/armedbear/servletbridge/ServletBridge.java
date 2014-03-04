@@ -268,7 +268,7 @@ public class ServletBridge extends HttpServlet {
         }
     }
 
-        private String lispConditionToString(Interpreter.UnhandledCondition e) {
+    private String lispConditionToString(Interpreter.UnhandledCondition e) {
         LispObject c = e.getCondition();
         String retval = "unable to print lisp condition";
         LispThread thread = LispThread.currentThread();

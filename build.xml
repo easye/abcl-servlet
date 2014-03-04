@@ -4,8 +4,6 @@
     <!-- A chance to override everything…-->
     <property file="build.properties"/>
 
-    <import file="nbproject/build-impl.xml"/>
-
     <property name="servlet-api.lisp.pattern"
               value="**/servlet-api.lisp"/>
 
@@ -29,8 +27,9 @@
       </fileset>
     </path>
 
+    <!--
     <target name="-post-compile" depends="run-build.lisp"/>
-
+-->
     <target name="run-build.lisp" depends="resources.copy">
         <script language="ABCL" classpathref="abcl.runtime" 
                 src="${basedir}/build.lisp"/>
@@ -74,7 +73,7 @@
     </target>
     
     <target name="-post-clean"
-            depends="clean.src.fasls"/>
+            depends="clean.src.fasls,clean.ext"/>
 
     <target name="clean.src.fasls">
       <delete>
@@ -83,6 +82,44 @@
         </fileset>
       </delete>
     </target>
+
+    <target name="clean.ext">
+      <delete dir="ext"/>
+    </target>
+
+    <property name="ext.slime.root.dir" 
+              value="ext/slime/"/>
+    <property name="slime.resources.dir"
+              value="${ext.slime.root.dir}/META-INF/resources"/>
+    <property name="ext.slime.dir"
+              value="${slime.resources.dir}/slime"/>
+    <target name="slime.jar">
+      <mkdir dir="${ext.slime.dir}"/>
+      <copy todir="${ext.slime.dir}">
+        <fileset dir="../slime/"/>
+      </copy>
+      <jar destfile="ext/slime.jar">
+        <fileset dir="${ext.slime.root.dir}/"/>
+      </jar>
+    </target>
+
+    <property name="ext.lisp-servlet.root.dir"
+              value="ext/lisp-servlet/"/>
+    <property name="lisp-servlet.resources.dir"
+              value="${ext.lisp-servlet.root.dir}/META-INF/resources"/>
+    <property name="ext.lisp-servlet.dir"
+              value="${lisp-servlet.resources.dir}/lisp/"/>
+    <target name="lisp-servlet.jar">
+      <mkdir dir="${ext.lisp-servlet.dir}"/>
+      <copy todir="${ext.lisp-servlet.dir}">
+        <fileset dir="src/lisp"/>
+      </copy>
+      <jar destfile="ext/lisp-servlet.jar">
+        <fileset dir="${ext.lisp-servlet.root.dir}/"/>
+      </jar>
+    </target>
+
+    <target name="-pre-compile" depends="lisp-servlet.jar,slime.jar"/>
     
     <target name="deploy"
             depends="dist">
@@ -92,4 +129,7 @@
         </fileset>
       </copy>
     </target>
+
+    <import file="nbproject/build-impl.xml"/>
+
 </project>

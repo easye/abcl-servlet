@@ -9,9 +9,14 @@ inside a Java Servlet container.
     http://slack.net/~evenson/abcl/abcl-servlet
     Mark <evenson.not.org@gmail.com>
     Created: 22-NOV-2011
-    Revised: 02-AUG-2012
+    Revised: 04-MAR-2014
 
 ##  INSTALL
+
+### abcl-1.3.0-dev post r14634
+
+Needs org.armedbear.lisp.Load.load(InputStream) methods in abcl-1.3.0-dev
+in post  <http://abcl.org/trac/changeset/14634> versions.
 
 Built via the
 [Ant instructions contained in 'file:build.xml'](build.xml).  First
@@ -20,8 +25,26 @@ local variances.  To build the `abcl-servlet.war' issue:
 
     cmd$ ant -find build.xml dist
 
+## API
+
+/get/*
+  Implementation of resource servlet (currently unused), which
+  returns things inside a valid resource so we can work in servlets
+  which do not serve contents from the local filesystem making the
+  ServletContext.getRealPath() methods fail.
+
+/post/*
+  Currently all requests shunt to the the SIMPLE-SERVLET::SERVICE symbol in
+  <file:/src/lisp/simple.lisp>.
+
 ##  SLIME
 
+
+### NOT- Working 
+N.b. Currently not-working.  Deploy with
+<file:web/WEB-INF/bridge-servlet-swank.xml> for previous behavior.
+
+### Connecting to container via Swank
 One specifies the SLIME installation available locally to be packaged
 by the build process to create the delpoyment artifact
 [abcl-servlet.war](dist/abcl-servlet.war) via the `slime.dir' property
