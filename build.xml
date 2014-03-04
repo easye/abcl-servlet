@@ -83,5 +83,13 @@
         </fileset>
       </delete>
     </target>
-
+    
+    <target name="deploy"
+            depends="dist">
+      <copy todir="${j2ee.server.home}/webapps/">
+        <fileset dir="dist/">
+          <include name="abcl-servlet.war"/>
+        </fileset>
+      </copy>
+    </target>
 </project>
