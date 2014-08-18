@@ -13,17 +13,10 @@ inside a Java Servlet container.
 
 ##  INSTALL
 
-### abcl-1.3.0-dev post r14634
+### abcl-1.3.1
 
-Needs org.armedbear.lisp.Load.load(InputStream) methods in abcl-1.3.0-dev
-in post  <http://abcl.org/trac/changeset/14634> versions.
+We require abcl-1.3.1 or later.
 
-Built via the
-[Ant instructions contained in 'file:build.xml'](build.xml).  First
-copy `build.properties.in' to `build.properties', then edit to reflect
-local variances.  To build the `abcl-servlet.war' issue: 
-
-    cmd$ ant -find build.xml dist
 
 ## API
 

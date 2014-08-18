@@ -43,9 +43,10 @@ public class Resource extends HttpServlet {
       return;
     }
     if (pathInfo.endsWith("/")) {
-      outputIndex(pathInfo, response);
+      outputIndex(request, response);
+    } else {
+      outputResource(pathInfo, response);
     }
-    outputResource(pathInfo, response);
   }
 
   void outputResource(String path, HttpServletResponse r) throws IOException {
@@ -70,25 +71,40 @@ public class Resource extends HttpServlet {
     in.close();
   }
 
-  void outputIndex(String path, HttpServletResponse r) throws IOException {
+  void outputIndex(HttpServletRequest request, HttpServletResponse r) throws IOException {
     ServletContext context = getServletContext();
-    Set<String> paths = context.getResourcePaths(path);
+    String pathInfo = request.getPathInfo();
+    Set<String> paths = context.getResourcePaths(pathInfo);
 
-    r.setContentType("text/plain");
+    r.setContentType("text/html");
+
     PrintWriter o;
     try {
       o = r.getWriter();
+      o.printf("<html><body>\n");
     } catch (IOException ex) {
       Logger.getLogger(Resource.class.getName()).log(Level.SEVERE, null, ex);
       throw ex;
     }
     if (paths == null) {
-      o.printf("No paths found for '%1$s'\n", path);
+      o.printf("<h1 class'error'>No paths found for '%1$s'</h1>\n", pathInfo);
     } else {
+      o.printf("<ul class='index'>\n");
+      String servletPath = request.getServletPath();
+      String requestURL = new String(request.getRequestURL());
+      String requestURI = request.getRequestURI();
+      String baseURI = requestURL.replaceFirst(servletPath, "");
+      
       for (String p : paths) {
-        o.printf("%1$s\n", p);
+        String[] requestPath = requestURI.split("/");
+        String[] path = requestURI.split("/");
+
+        String uri = "/" + requestPath[1] + "/" + requestPath[2] + p;
+        o.printf("<li class='path'><a href='%1$s'>%1$s</a></li>\n", uri, p);
       }
+      o.printf("</ul>\n");
     }
+    o.printf("</body></html>\n");
   }
 
   @Override
