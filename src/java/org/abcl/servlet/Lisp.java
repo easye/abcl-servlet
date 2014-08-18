@@ -87,8 +87,16 @@ public class Lisp
     return "Short description";
   }
 
+  /** Contains a static reference to the ServletContext this servlet initialized with.
+      
+      To assist Lisp code in bootstrapping we make a static reference
+      to this context available here.
+  */
+  public static ServletContext servletContext;
+
   public void init(ServletConfig config)
-          throws ServletException {
+      throws ServletException 
+  {
     super.init(config);
     log("Starting Lisp initialization...");
     synchronized (Lisp.class) {
@@ -100,42 +108,32 @@ public class Lisp
             bridgePackage = Packages.createPackage("SERVLET-BRIDGE");
           }
 
+          // Create a dynamic binding for the Java ServletContext at SERVLET-BRIDGE:*CONTEXT*
           contextSymbol = bridgePackage.internAndExport("*CONTEXT*");
-          //configSymbol = bridgePackage.internAndExport("*CONFIG*");
+          LispThread thread = LispThread.currentThread();
+          servletContext = getServletContext();
+          thread.bindSpecial(contextSymbol, new JavaObject(servletContext));
         }
         getServletContext().log("Succesfully started ABCL interpreter.");
       } catch (Throwable t) {
         throw new UnavailableException("Unable to instantiate Lisp");
       }
+      loadLispResource("/lisp/servlet-api.lisp");
 
-      String servletApi = "/lisp/servlet-api.lisp";
-      InputStream input = getServletContext().getResourceAsStream(servletApi);
-      if (input == null) {
-          log("Unable to load resource stream from " + servletApi);
-          throw new UnavailableException("Unable to load servlet API");
-      }
-      Load.load(input);
-      try {
-        input.close();
-      } catch (IOException e) {
-        log("Ignoring error on close of resource load");
+      int index = 0;
+
+      while (true) {
+        String path = servletContext.getInitParameter("abcl.servlet.load." + index);
+        if (path == null) {
+            break;
+        }
+        log(Message.format("Loading {0}.", path));
+        loadLispResource(path);
+        index += 1;
       }
       
-      // TODO Configuration!
-      String loader = "/lisp/simple.lisp";
-      input = getServletContext().getResourceAsStream(loader);
-      if (input == null) {
-          log("Unable to load resource stream from " + servletApi);
-          throw new UnavailableException("Unable to load servlet API");
-      }
-      Load.load(input);
-      try {
-        input.close();
-      } catch (IOException e) {
-        log("Ignoring error on close of resource load");
-      }
+      loadLispResource("/lisp/simple.lisp");
 
-      // TODO Configuration!
       String servicePackageName = "SIMPLE-SERVLET";
       org.armedbear.lisp.Package servicePackage 
         = Packages.findPackage(servicePackageName);
@@ -171,6 +169,23 @@ public class Lisp
     
     }
     log("Initialization finished.");
+  }
+
+  void loadLispResource(String path) {
+    try {
+      InputStream input = getServletContext().getResourceAsStream(path);
+      if (input == null) {
+        String message 
+          = MessageFormat.format("Unable to load Lisp resource from ''{0}''.", path);
+        log(message);
+       // throw new UnavailableException(message);
+      }
+      log(MessageFormat.format("Loading ''{0}''...", path));
+      Load.load(input);
+      input.close();
+    } catch (IOException e) {
+      log(MessageFormat.format("Proceeding despite IOException: {0}", e.toString()));
+    }
   }
   
   public void destroy() {

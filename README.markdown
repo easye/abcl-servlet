@@ -17,8 +17,23 @@ inside a Java Servlet container.
 
 We require abcl-1.3.1 or later.
 
+### Configuration
+
+    The path designating Lisp code to run at server startup can be
+    specified as web context initialization parameters of the form
+    "abcl.servlet.load.0", "abcl.servlet.load.1", etc. in the
+    <file:web/WEB-INF/web.xml> as follows:
+
+        <init-param>
+            <param-name>abcl.servlet.load.0</param-name>
+            <param-value>/lisp/swank-servlet.lisp</param-value>
+        </init-param>
+
+    See org.abcl.lisp.servlet.Lisp.init() for how these parameters are
+    interpreted.
 
 ## API
+
 
 /get/*
   Implementation of resource servlet (currently unused), which
@@ -31,11 +46,6 @@ We require abcl-1.3.1 or later.
   <file:/src/lisp/simple.lisp>.
 
 ##  SLIME
-
-
-### NOT- Working 
-N.b. Currently not-working.  Deploy with
-<file:web/WEB-INF/bridge-servlet-swank.xml> for previous behavior.
 
 ### Connecting to container via Swank
 One specifies the SLIME installation available locally to be packaged

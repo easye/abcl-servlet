@@ -4,6 +4,10 @@
     <servlet>
         <servlet-name>org.abcl.servlet.lisp</servlet-name>
         <servlet-class>org.abcl.servlet.Lisp</servlet-class>
+        <init-param>
+            <param-name>abcl.servlet.load.0</param-name>
+            <param-value>/lisp/swank-servlet.lisp</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
@@ -14,7 +18,7 @@
     <servlet-mapping>
         <servlet-name>org.abcl.servlet.lisp</servlet-name>
         <url-pattern>/post/*</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Resource</servlet-name>
         <url-pattern>/get/*</url-pattern>
