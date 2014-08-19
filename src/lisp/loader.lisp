@@ -4,7 +4,7 @@
 (in-package :SRV)
 
 (require 'asdf)
-(push #P"~/work/slime/" asdf:*central-registry*)
+;;(push #P"~/work/slime/" asdf:*central-registry*)
 (asdf:load-system 'swank)
 
 (defparameter *location* *load-pathname*)
