@@ -3,10 +3,11 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Armed Bear Common Lisp</title>
+    <title>ABCL-SERVLET</title>
   </head>
   <body>
-  <h1>abcl</h1>
-    <p>ABCL sez:  Hello World!</p>
+  <h1>abcl-servlet</h1>
+  <ul>
+  <li><a href="get/">Resources</a>
   </body>
 </html>

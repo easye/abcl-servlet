@@ -6,10 +6,9 @@ inside a Java Servlet container.
 ## OBTAINING
 
     http://bitbucket.org/easye/abcl-servlet
-    http://slack.net/~evenson/abcl/abcl-servlet
     Mark <evenson.not.org@gmail.com>
     Created: 22-NOV-2011
-    Revised: 04-MAR-2014
+    Revised: 20-AUG-2014
 
 ##  INSTALL
 
@@ -24,45 +23,50 @@ We require abcl-1.3.1 or later.
     "abcl.servlet.load.0", "abcl.servlet.load.1", etc. in the
     <file:web/WEB-INF/web.xml> as follows:
 
-        <init-param>
+        <context-param>
             <param-name>abcl.servlet.load.0</param-name>
             <param-value>/lisp/swank-servlet.lisp</param-value>
-        </init-param>
+        </context-param>
 
-    See org.abcl.lisp.servlet.Lisp.init() for how these parameters are
-    interpreted.
+    See
+    <file:src/lisp/org/abcl/servlet/Lisp:org.abcl.lisp.servlet.Lisp.init()>
+    for how these parameters are interpreted.
 
 ## API
 
+(provisional)
 
-/get/*
-  Implementation of resource servlet (currently unused), which
+### /get/*
+
+  Implementation of resource servlet, which
   returns things inside a valid resource so we can work in servlets
   which do not serve contents from the local filesystem making the
   ServletContext.getRealPath() methods fail.
 
-/post/*
-  Currently all requests shunt to the the SIMPLE-SERVLET::SERVICE symbol in
+### /post/*
+
+  Currently not-working, but the idea would be all requests get
+  shunted to the the SIMPLE-SERVLET::SERVICE symbol in
   <file:/src/lisp/simple.lisp>.
 
 ##  SLIME
 
-### Connecting to container via Swank
-One specifies the SLIME installation available locally to be packaged
-by the build process to create the delpoyment artifact
-[abcl-servlet.war](dist/abcl-servlet.war) via the `slime.dir' property
+### Connecting to ABCL running container via Swank
 
-To start the Swank server listening for incoming connections, the only
-defined REST call is currently
-  
-    GET http://tomcat.local:8084/abcl-servlet/swank
-    
-where the "tomcat.local:8084" resolves to the authority and path of
-the deployed 'abcl-servlet.war' artifact which should respond with an
-HTML message containing markup with how to rendevous with the SLIME
-port, usually via invoking the function SLIME-CONNECT in Emacs lisp
-(interactively by the "M-x" prefix).
+Currently, the code in <file:src/lisp/swank-servlet.lisp> locates a
+version of SLIME to execute by using the per-user ASDF configuration
+mechanism.  If there exists a distribution of SLIME in
+<file:~/work/slime>, then creating a file at
+<file:~/.config/common-lisp/source-registry.conf.d/swank.conf> with
+the single form 
 
+    (:tree (:home "work/slime/"))
+
+will satisfy this requirement.
+
+Once abcl-servlet is running, one may connect to the ABCL process
+inside the servlet container by using M-x slime-connect to
+localhost:4005.
 
 ## BUGS
 

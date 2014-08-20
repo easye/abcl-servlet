@@ -123,9 +123,10 @@ public class Lisp
       int index = 0;
 
       while (true) {
-        String path = servletContext.getInitParameter("abcl.servlet.load." + index);
+        String key = "abcl.servlet.load." + index;
+        String path = servletContext.getInitParameter(key);
         if (path == null) {
-            break;
+          break;
         }
         log(MessageFormat.format("Loading {0}.", path));
         loadLispResource(path);

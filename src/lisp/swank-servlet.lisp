@@ -6,8 +6,15 @@
 
 (require :asdf)
 
-;; As long as the user's ASDF can find the swank.asd definition, this
-;; should work.
+;;; As long as the user's ASDF can find the swank.asd definition, this
+;;; should work.
+;;; 
+;;; For the existence of a SLIME distribution in <file:~/work/slime/>,
+;;; place the following form in
+;;; <file:~/.config/common-lisp/source-registry.conf.d/swank.conf>:
+;;;
+;;;     (:tree (:home "work/slime/"))
+;;;
 (require :swank)
 
 (defun load-swank ()
