@@ -127,7 +127,7 @@ public class Lisp
         if (path == null) {
             break;
         }
-        log(Message.format("Loading {0}.", path));
+        log(MessageFormat.format("Loading {0}.", path));
         loadLispResource(path);
         index += 1;
       }
